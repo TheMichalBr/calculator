@@ -19,6 +19,7 @@ class CalculatorApp:
 
         try:
             self.master.iconbitmap("calculator.ico")
+            self.iconbitmap("calculator.ico")
         except:
             pass    # Launch without icon.
 
@@ -46,10 +47,10 @@ class CalculatorApp:
         self.button_frame.pack(fill=BOTH, expand=True)
 
         buttons = [
-            ('C', 1, 0, 'danger'), ('(', 1, 1, 'info'), (')', 1, 2, 'info'), ('/', 1, 3, 'info'),
-            ('7', 2, 0, 'secondary'), ('8', 2, 1, 'secondary'), ('9', 2, 2, 'secondary'), ('*', 2, 3, 'info'),
-            ('4', 3, 0, 'secondary'), ('5', 3, 1, 'secondary'), ('6', 3, 2, 'secondary'), ('-', 3, 3, 'info'),
-            ('1', 4, 0, 'secondary'), ('2', 4, 1, 'secondary'), ('3', 4, 2, 'secondary'), ('+', 4, 3, 'info'),
+            ('C', 1, 0, 'danger'), ('⌫', 1, 1, 'warning'), ('(', 1, 2, 'info'), (')', 1, 3, 'info'),
+            ('7', 2, 0, 'secondary'), ('8', 2, 1, 'secondary'), ('9', 2, 2, 'secondary'), ('/', 2, 3, 'primary'),
+            ('4', 3, 0, 'secondary'), ('5', 3, 1, 'secondary'), ('6', 3, 2, 'secondary'), ('*', 3, 3, 'primary'),
+            ('1', 4, 0, 'secondary'), ('2', 4, 1, 'secondary'), ('3', 4, 2, 'secondary'), ('-', 4, 3, 'primary'),
             ('0', 5, 0, 'secondary', 2), ('.', 5, 2, 'secondary'), ('=', 5, 3, 'success')
         ]
 
@@ -59,7 +60,7 @@ class CalculatorApp:
                 self.button_frame,
                 text=text,
                 style="Calc.TButton",
-                bootstyle='dark rounded',
+                bootstyle=f'{style} dark rounded',
                 command=lambda t=text: self.on_button_press(t)
             )
             btn.grid(row=row, column=col, columnspan=colspan, sticky="nsew", padx=3, pady=3)
@@ -70,10 +71,14 @@ class CalculatorApp:
             self.button_frame.grid_columnconfigure(i, weight=1)
 
         self.master.bind("<Key>", self.key_input)
+        self.master.bind("<BackSpace>", lambda e: self.on_button_press('⌫'))
 
     def on_button_press(self, char):
         if char == 'C':
             self.expression = ""
+            self.display.configure(foreground="white")
+        elif char == '⌫':
+            self.expression = self.expression[:-1]
         elif char == '=':
             try:
                 expression_safe = self.expression.replace(',', '.')
@@ -88,11 +93,11 @@ class CalculatorApp:
         else:
             if self.equation.get() == "Error":
                 self.expression = ""
-                self.display.configure(foreground="black")
+                self.display.configure(foreground="white")
             if char == '.' and self.expression and self.expression[-1] == '.':
                 return
             self.expression += str(char)
-            self.display.configure(foreground="black")
+            self.display.configure(foreground="white")
 
         self.equation.set(self.expression.replace('.', ','))
 
@@ -109,11 +114,9 @@ class CalculatorApp:
         try:
             self.master.update()
             DWMWA_USE_IMMERSIVE_DARK_MODE = 20
-            set_window_attribute = ct.windll.dwmapi.DwmSetWindowAttribute
-            get_parent = ct.windll.user32.GetParent
-            hwnd = get_parent(self.master.winfo_id())
+            hwnd = ct.windll.user32.GetParent(self.master.winfo_id())
             value = ct.c_int(1)
-            set_window_attribute(hwnd, DWMWA_USE_IMMERSIVE_DARK_MODE, ct.byref(value), ct.sizeof(value))
+            ct.windll.dwmapi.DwmSetWindowAttribute(hwnd, DWMWA_USE_IMMERSIVE_DARK_MODE, ct.byref(value), ct.sizeof(value))
         except Exception:
             pass
 
