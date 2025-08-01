@@ -26,7 +26,7 @@ class CalculatorApp:
         self.equation = tk.StringVar()
 
         self.style = ttk.Style()
-        self.style.configure("Calc.TButton", font=("Segoe UI", 20, "bold"), padding=10)
+        self.style.configure("Calc.TButton", font=("Segoe UI", 20, "bold"), padding=10, borderwidth=1, relief="flat")
 
         self.display_frame = ttk.Frame(self.master, padding=(10, 10, 10, 0))
         self.display_frame.pack(fill=X)
@@ -36,7 +36,9 @@ class CalculatorApp:
             textvariable=self.equation,
             font=('Segoe UI', 32, 'bold'),
             justify='right',
-            state='readonly'
+            state='readonly',
+            foreground='white',
+            background='black',
         )
         self.display.pack(fill=X, expand=True, ipady=10)
 
@@ -57,7 +59,7 @@ class CalculatorApp:
                 self.button_frame,
                 text=text,
                 style="Calc.TButton",
-                bootstyle=style,
+                bootstyle="info rounded",
                 command=lambda t=text: self.on_button_press(t)
             )
             btn.grid(row=row, column=col, columnspan=colspan, sticky="nsew", padx=3, pady=3)
