@@ -51,7 +51,8 @@ class CalculatorApp:
             ('7', 2, 0, 'secondary'), ('8', 2, 1, 'secondary'), ('9', 2, 2, 'secondary'), ('/', 2, 3, 'primary'),
             ('4', 3, 0, 'secondary'), ('5', 3, 1, 'secondary'), ('6', 3, 2, 'secondary'), ('*', 3, 3, 'primary'),
             ('1', 4, 0, 'secondary'), ('2', 4, 1, 'secondary'), ('3', 4, 2, 'secondary'), ('-', 4, 3, 'primary'),
-            ('0', 5, 0, 'secondary', 2), ('.', 5, 2, 'secondary'), ('=', 5, 3, 'success')
+            ('0', 5, 0, 'secondary', 2), ('.', 5, 2, 'secondary'), ('+', 5, 3, 'success'),
+            ('=', 6, 0, 'success', 4)
         ]
 
         for (text, row, col, style, *args) in buttons:
@@ -65,7 +66,7 @@ class CalculatorApp:
             )
             btn.grid(row=row, column=col, columnspan=colspan, sticky="nsew", padx=3, pady=3)
 
-        for i in range(6):
+        for i in range(7):
             self.button_frame.grid_rowconfigure(i, weight=1)
         for i in range(4):
             self.button_frame.grid_columnconfigure(i, weight=1)
