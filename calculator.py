@@ -59,7 +59,7 @@ class CalculatorApp:
                 self.button_frame,
                 text=text,
                 style="Calc.TButton",
-                bootstyle="info rounded",
+                bootstyle='dark rounded',
                 command=lambda t=text: self.on_button_press(t)
             )
             btn.grid(row=row, column=col, columnspan=colspan, sticky="nsew", padx=3, pady=3)
