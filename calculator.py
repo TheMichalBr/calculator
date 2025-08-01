@@ -2,6 +2,7 @@ import math
 import tkinter as tk
 import ttkbootstrap as ttk
 from tkinter import messagebox
+from tkinter import PhotoImage
 from ttkbootstrap import Style
 from ttkbootstrap.constants import *
 from ttkbootstrap.widgets import Frame, Entry, Button, Label
